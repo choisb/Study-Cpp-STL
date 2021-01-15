@@ -14,6 +14,37 @@ void Print1(int arg)
 	cout << " 정수 : " << arg << endl;
 }
 
+class A
+{
+
+};
+class B
+{
+public:
+	operator A() // 반환 형식이 없다.
+	{
+		cout << "operator A() 호출" << endl;
+		return A();
+	}
+	operator int()
+	{
+		cout << "operator int() 호출" << endl;
+		return 10;
+	}
+	operator double()
+	{
+		cout << "operator double() 호출" << endl;
+		return 5.5;
+	}
+};
+
+class String {
+	const char* pstr;
+public:
+	String(const char* _pstr) : pstr(_pstr) { }
+	operator const char* () const { return  pstr; }
+};
+
 int main()
 {
 	//Point p1(2, 3), p2(5, 5);
@@ -72,20 +103,51 @@ int main()
 	////ar2[0] = 100; //에러! 상수 객체(값)을 반환하기 때문에 대입할 수 없다.
 
 
-	Point* ptr = new Point(2, 3);
-	PointPtr p1 = ptr; //PointPtr p1(ptr); 과 같은 표현인듯?
+	//Point* ptr = new Point(2, 3);
+	//PointPtr p1 = ptr; //PointPtr p1(ptr); 과 같은 표현인듯?
 
-	// Point* ptr = new Point(4, 5);
-	// PointPtr p2 = ptr;
-	// 위 두 줄을 아래와 같이 표현할 수도 있다.    
-	PointPtr p2 = new Point(4, 5);
+	//// Point* ptr = new Point(4, 5);
+	//// PointPtr p2 = ptr;
+	//// 위 두 줄을 아래와 같이 표현할 수도 있다.    
+	//PointPtr p2 = new Point(4, 5);
 
 
-	p1->Print(); //p1.operator->() -> Print() 호출
-	p2->Print(); //p2.operator->() -> Print() 호출
+	//p1->Print(); //p1.operator->() -> Print() 호출
+	//p2->Print(); //p2.operator->() -> Print() 호출
+	//cout << endl;
 
-	//p2의 소멸자에서 Point 동적 객체를 자동으로 메모리에서 제거
-	//p1의 소멸자에서 Point 동적 객체를 자동으로 메모리에서 제거
+	//(*p1).Print(); //p1.operator*().Print() 호출
+	//(*p2).Print(); //p2.operator*().Print() 호출
+
+	////p2의 소멸자에서 Point 동적 객체를 자동으로 메모리에서 제거
+	////p1의 소멸자에서 Point 동적 객체를 자동으로 메모리에서 제거
+
+	//A a;
+	//int n;
+	//double d;
+
+	//B b;	
+	//a = b;	// b.operator A() 암시적 호출
+	//n = b;	// b.operator int() 암시적 호출
+	//d = b;	// b.operator double() 암시적 호출
+
+	//cout << endl;
+	//a = b.operator A();		// 명시적 호출
+	//n = b.operator int();	// 명시적 호출
+	//d = b.operator double();// 명시적 호출
+
+	//int n = 10;
+
+	//Point pt(2, 3);
+	//n = pt; // pt.operator int() 암시적 호출
+	//cout << n << endl;
+
+	//return 0;
+	const char* sz = "Hello!";
+	String s("Hi~!");
+	s = sz;
+
+
 
 	return 0;
 }
