@@ -94,15 +94,22 @@ int main(){
 	return 0;
 }
 ```
-> friend 함수는 캡슐화를 저해하므로 가능하면 getter, setter를 사용하는 것이 좋다.
+friend 함수는 캡슐화를 저해하므로 가능하면 getter, setter를 사용하는 것이 좋다.
+
+___
 
 ## STL에 필요한 주요 연산자 오버로딩
-함수 호출 연산자 오버로딩은 **객체**를 **함수**처럼 동작하게 하는 연산자이다. C++에서  Print(10)이라는 함수 호출 문장은 다음 세가지로 해석할 수 있다.
+**순서**
+- 함수 호출 연산자 오버로딩(`()`연산자)
+- 배열 인덱스 연산자 오버로딩(`[]` 연산자)
+- 메모리 접근, 클래스 멤버 접근 연산자 오버로딩(`*`, `->` 연산자)
+### 함수 호출 연산자 오버로딩(`()` 연산자)
+함수 호출 연산자 오버로딩은 **객체**를 **함수**처럼 동작하게 하는 연산자이다. C++에서  `Print(10)`이라는 함수 호출 문장은 다음 세가지로 해석할 수 있다.
 - 첫째, 함수 호출: Print가 함수 이름
 - 둘째, 함수 포인터: Print가 함수 포인터
 - 셋째, 함수 객체: Print가 함수 객체
 
-```cpp {.line-numbers}
+```cpp 
 struct FuncObject
 {
 public:
@@ -128,4 +135,135 @@ int main(){
 }
 ```
 
-$$ y = a + 3 $$
+`FuncObject` 구조체의 `void operator() (int arg) const` 연산자 함수에서 `()` 연산자에 대한 Overloading을 하였기 때문에 `Print3` 객체를 객체이지만 마치 함수인것 처럼 사용할 수 있다.
+> 함수 포인터와, 함수 객체는 추후 2장 3장에서 자세하게 다룰 예정.  
+ 
+
+###  배열 인덱스 연산자 오버로딩(`[]` 연산자)
+배열 인덱스 연산자 오버로딩을 사용하면 배열에 사용하는 `[]`연산자를 객체에도 사용할 수 있다. `[]`연산자 오버로딩은 일반적으로 많은 객체를 저장하고 관리하는 객체에 사용됨.
+> Array.h
+```cpp
+#include <iostream>
+using namespace std;
+
+class Array
+{
+	int *arr;
+	int size;
+	int capacity;
+
+public:
+
+...
+	int operator[] (int idx) const // 상수값 반환
+	{
+		return arr[idx];
+	}
+
+	int& operator[] (int idx) // L-Value 반환
+	{
+		return arr[idx];
+	}
+};
+```
+> main.cpp
+```cpp
+#include "Array.h"
+
+int main()
+{
+	Array ar(10);
+	ar.Add(10);
+	ar.Add(20);
+	ar.Add(30);
+
+	for (int i = 0; i < ar.Size(); i++)
+		cout << ar[i] << endl; //ar.operator[](int) 호출
+
+	const Array& ar2 = ar;  // 상수참조 ar2 선언
+	ar[0] = 40;	        //ar.operator[](int) 호출
+	cout << ar2[0] << endl; //ar.operator[](int) const 호출
+	//ar2[0] = 100;         에러! 상수 객체(값)을 반환하기 때문에 대입할 수 없다.
+
+	return 0;
+}
+```
+>출력 결과
+```
+10
+20
+30
+40
+```
+
+### 메모리 접근, 클래스 멤버 접근 연산자 오버로딩(`*`, `->` 연산자)
+- `*`, `->` 연산자는 스마트 포인터나 반복자(iterator) 등의 특수한 객체에 사용됨
+- 반복자가 STL의 핵심 구성 요소이므로 `*`, `->` 연산자 오버로딩은 아주 중요함.
+
+#### `->`연산자 오버로딩을 통한 스마트 포인터
+>PointPtr.h
+```cpp
+#include "Point.h"
+
+class PointPtr
+{
+	Point *ptr;
+public:
+	PointPtr(Point *p) : ptr(p) 
+	{
+		cout << "PointPtr(Point *p): ptr(p) > " << ptr << endl;
+	}
+	~PointPtr()
+	{
+		cout << "~PointPtr(): delete ptr; > " << ptr << endl;
+		delete ptr;
+	}
+
+	Point* operator->() const
+	{
+		cout << "operator->(): return ptr; > " << ptr << endl;
+		return ptr; // Point의 주소값에 해당하는 ptr을 반환
+	}
+};
+```
+>main.cpp
+```cpp
+#include "PointPtr.h"
+
+int main()
+{
+    Point* ptr = new Point(2,3);
+    PointPtr p1 = ptr; //PointPtr p1(ptr); 과 같은 표현인듯?
+
+    //Point* ptr = new Point(4, 5);
+    //PointPtr p2 = ptr;
+    //위 두 줄을 아래와 같이 표현할 수도 있다.    
+    PointPtr p2 = new Point(4,5);
+
+
+    p1->Print(); //p1.operator->() -> Print() 호출
+    p2->Print(); //p2.operator->() -> Print() 호출
+
+	//p2의 소멸자에서 Point 동적 객체를 자동으로 메모리에서 제거
+	//p1의 소멸자에서 Point 동적 객체를 자동으로 메모리에서 제거
+
+	return 0;
+}
+}
+```
+> 출력 결과
+```
+PointPtr(Point *p): ptr(p) > 0133E038
+PointPtr(Point *p): ptr(p) > 0133E4D0
+operator->(): return ptr; > 0133E038
+2,3
+operator->(): return ptr; > 0133E4D0
+4,5
+~PointPtr(): delete ptr; > 0133E4D0
+~PointPtr(): delete ptr; > 0133E038
+```
+- p1, p2는 스택 객체이므로 main()함수 블록이 종료될 때 자동으로 p1, p2 소멸자 호출 (스택영역 이기 때문에 p2, p1 순으로 삭제)
+- 아래와 같은 상황에서도 동적으로 생성한 Point 객체를 소멸자에서 삭제하여 메모리 누수 방지
+  - 프로그램 중에 예외가 발생한 경우
+  - delete 호출을 빼먹는 경우 등
+     
