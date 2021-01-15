@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1340
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch01_Operator_Overloading", "Ch01_Operator_Overloading\Ch01_Operator_Overloading.vcxproj", "{55EE515F-6C11-4C9B-9F35-39C6A148DFD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9A12053F-E6DB-49D1-914D-802F8243CCBF}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55EE515F-6C11-4C9B-9F35-39C6A148DFD7}.Debug|x64.ActiveCfg = Debug|x64
+		{55EE515F-6C11-4C9B-9F35-39C6A148DFD7}.Debug|x64.Build.0 = Debug|x64
+		{55EE515F-6C11-4C9B-9F35-39C6A148DFD7}.Debug|x86.ActiveCfg = Debug|Win32
+		{55EE515F-6C11-4C9B-9F35-39C6A148DFD7}.Debug|x86.Build.0 = Debug|Win32
+		{55EE515F-6C11-4C9B-9F35-39C6A148DFD7}.Release|x64.ActiveCfg = Release|x64
+		{55EE515F-6C11-4C9B-9F35-39C6A148DFD7}.Release|x64.Build.0 = Release|x64
+		{55EE515F-6C11-4C9B-9F35-39C6A148DFD7}.Release|x86.ActiveCfg = Release|Win32
+		{55EE515F-6C11-4C9B-9F35-39C6A148DFD7}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {59DE545C-53A0-465D-9B1E-A9CE2A08E514}
+	EndGlobalSection
+EndGlobal
