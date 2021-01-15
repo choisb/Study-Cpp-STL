@@ -97,4 +97,35 @@ int main(){
 > friend 함수는 캡슐화를 저해하므로 가능하면 getter, setter를 사용하는 것이 좋다.
 
 ## STL에 필요한 주요 연산자 오버로딩
-함수 호출 연산자 오버로딩은 객체를 함수처럼 동작하게 하는 연산자이다.
+함수 호출 연산자 오버로딩은 **객체**를 **함수**처럼 동작하게 하는 연산자이다. C++에서  Print(10)이라는 함수 호출 문장은 다음 세가지로 해석할 수 있다.
+- 첫째, 함수 호출: Print가 함수 이름
+- 둘째, 함수 포인터: Print가 함수 포인터
+- 셋째, 함수 객체: Print가 함수 객체
+
+```cpp {.line-numbers}
+struct FuncObject
+{
+public:
+	void operator() (int arg) const
+	{
+		cout << " 정수 : " << arg << endl;
+	}
+};
+
+void Print1(int arg)
+{
+	cout << " 정수 : " << arg << endl;
+}
+int main(){
+	void(*Print2) (int) = Print1;   // 함수 포인터 Print2 선언
+	FuncObject Print3;              // 함수 객체 Print3 선언
+
+	Print1(10); // '함수'를 사용한 정수 출력
+	Print2(10); // '함수 포인터'를 사용한 정수 출력
+	Print3(10); // '함수 객체'를 사용한 정수 출력 (Print3.operator(10)과 같음)
+
+	return 0;
+}
+```
+
+$$ y = a + 3 $$
