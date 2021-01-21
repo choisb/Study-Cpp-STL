@@ -17,7 +17,7 @@ ___
 - **함수 템플릿**: 여러 함수를 만들어내는 함수의 틀
 - **클래스 템플릿**: 여러 클래스를 만들어내는 클래스의 틀
 [
-[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Templatet#Tamplate) 
+[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#Tamplate) 
 / 
 [처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
 ]
@@ -339,7 +339,7 @@ int main()
 Print 특수화 버전: 2,3
 ```
 [
-[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Templatet#Tamplate) 
+[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#Tamplate) 
 / 
 [처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
 ]
@@ -347,7 +347,7 @@ ___
 ## ✔ 클래스 템플릿
 
 [
-[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Templatet#Tamplate) 
+[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#Tamplate) 
 / 
 [처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
 ]
