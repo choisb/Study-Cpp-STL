@@ -1,9 +1,9 @@
 ﻿# Function Object
 ## 📝 목차
-- 함수 객체란
-- 함수 객체의 사용법
-- 함수 객체의 구현
-- 이것만은 알고 갑시다.
+- [함수 객체란](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch03_Function_Object#-함수-객체란)
+- [함수 객체의 사용법](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch03_Function_Object#-함수-객체의-사용법)
+- [함수 객체의 구현](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch03_Function_Object#-함수-객체의-구현)
+- [연습문제](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch03_Function_Object#-연습문제)
 ___
 
 ## ✔ 함수 객체란
@@ -18,6 +18,12 @@ ___
 - 함수 객체의 **서명**(반환 타입, 매개변수)이 같더라도 객체 타입이 다르면 서로 전혀 다른 타입으로 인식.
 - 함수 객체는 **인라인**될 수 있고, 컴파일러가 쉽게 최적화 할 수 있어서 일반 함수보다 빠르다. 
 
+[
+[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch03_Function_Object#function-object) 
+/ 
+[처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
+]
+___
 ## ✔ 함수 객체의 사용법
 
 ##### 함수 객체의 예제
@@ -28,7 +34,7 @@ ___
 - `operator()(int n)` 함수는 클래스 내부에 정의되므로 **암묵적으로 인라인** 함수다.
 - `operator()(int n)` 와 **서명**이 같더라도 **타입이 다른** 함수 객체는 `Adder` 클래스 객체에 대입하거나 복사 할 수 없다.
 
-> 함수객체 예제(`ex03_01.cpp`)
+> 함수객체 예제[(`ex03_01.cpp`)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch03_Function_Object/ex03_01.cpp)
 ```cpp
 #include <iostream>
 using namespace std;
@@ -63,7 +69,7 @@ int main()
 ##### 함수 객체를 사용한 콜백 함수 구현
 - 아래와 같이 함수 객체는 일반 함수 처럼 **콜백(Callback)함수** 구현에도 사용할 수 있다.
   - `for_each()` 알고리즘의 세 번째 인자에 함수 포인터가 아닌 함수 객체를 전달한 모습을 볼 수 있다.
-> 콜백함수 예시 (`ex03_02.cpp`)
+> 콜백함수 예시 [(`ex03_02.cpp`)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch03_Function_Object/ex03_02.cpp)
 ```cpp
 #include <iostream>
 #include <algorithm>  // for_each() 알고리즘(서버)을 사용하기 위한 헤더
@@ -128,13 +134,18 @@ Functor3() 호출
 정수 : 40
 정수 : 50
 ```
+[
+[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch03_Function_Object#function-object) 
+/ 
+[처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
+]
 ___
 ## ✔ 함수 객체의 구현
 - STL에서 함수 객체는 곳곳에 사용되며 중요한 역할을 하고있음을 기억하자.
 - 여기에서는 예시로 STL에 구현되어 있는 less 함수객체의 기능 일부를 구현해보고 넘어가도록 한다.
 
 ##### STL의 less 객체
->STL의 less 객체 사용(`ex03_03.cpp`)
+>STL의 less 객체 사용[(`ex03_03.cpp`)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch03_Function_Object/ex03_03.cpp)
 ```cpp
 #include <iostream>
 #include <functional> // less<> 헤더
@@ -160,7 +171,7 @@ int main()
 ```
 
 ##### 직접 구현한 less 객체
->less 구현(`ex03_04.cpp`)
+>less 구현[(`ex03_04.cpp`)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch03_Function_Object/ex03_04.cpp)
 ```cpp
 #include <iostream>
 using namespace std;
@@ -197,8 +208,13 @@ int main()
     return 0;
 }
 ```
+[
+[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch03_Function_Object#function-object) 
+/ 
+[처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
+]
 ___
-## ✔ 이것만은 알고 갑시다.
+## ✔ 연습문제
 ##### 1. 다음 빈 칸을 채우세요.
 - 함수처럼 호출 가능한 클래스 객체를 가리켜(✏함수 객체)라 합니다.
 - 함수처럼 호출 가능한 클래스 객체는  (✏`()`)연산자를 오버로딩해 생성합니다.
@@ -215,9 +231,9 @@ else
 ```cpp
 class Equal{
 public:
-    bool operator()(int n1, int n2)
+    bool operator()(int left, int right)
     {
-        if(n1 == n2)
+        if(left == right)
             return true;
         else
             return false;
@@ -231,9 +247,9 @@ public:
 ```cpp
 class Equal{
 public:
-    bool operator()(int n1, int n2) const
+    bool operator()(int left, int right) const
     {
-        return n1 == n2;
+        return left == right;
     }
 };
 ```
@@ -248,9 +264,14 @@ cout << "sum= " << sum << endl;
 ```cpp
 class Adder{
 public:
-    itn operator()(int n1, int n2) const // const함수로 선언할 것
+    itn operator()(int left, int right) const // const함수로 선언할 것
     {
-        return n1 + n2;
+        return left + right;
     }
 };
 ```
+[
+[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch03_Function_Object#function-object) 
+/ 
+[처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
+]
