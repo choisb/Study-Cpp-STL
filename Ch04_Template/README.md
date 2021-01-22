@@ -995,3 +995,14 @@ public:
 [처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
 ]
 ___
+## 출처
+- 본 프로젝트는 개인 학습을 목적으로 공동환 저자의 [뇌를 자극하는 C++ STL](한빛 미디어) 교재 내용을 요약 및 일부 수정하여 작성하였습니다.
+- 본 프로젝트의 내용과 코드에 대한 저작권은 공동환과 한빛미디어(주)에 있으며, 한빛미디어(주)로 부터 허가를 받고 게시하였음을 밝힙니다.
+- [도서 소개보기](https://www.hanbit.co.kr/store/books/look.php?p_code=B5912645820)
+
+[
+[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#Tamplate) 
+/ 
+[처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
+]
+___
