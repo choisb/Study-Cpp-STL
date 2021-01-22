@@ -18,7 +18,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ex05_01.cpp">
+    <ClCompile Include="ex05_06.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

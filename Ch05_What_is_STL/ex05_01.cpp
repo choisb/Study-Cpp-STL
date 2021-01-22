@@ -15,4 +15,11 @@ int main()
 
     for (unsigned int i = 0; i < v.size(); ++i)
         cout << v[i] << endl; 
+    cout << endl;
+
+    vector<int>::iterator iter; // 반복자 생성(아직 원소를 가리키지 않음)
+    for (iter = v.begin(); iter != v.end(); ++iter)
+        cout << *iter << endl;  // 반복자가 가리키는 원소를 역참조
+    
+    return 0;
 }
