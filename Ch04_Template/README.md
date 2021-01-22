@@ -1,10 +1,23 @@
 ﻿# Tamplate
 ## 📝 목차
 - [템플릿 이란?](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#-템플릿-이란)
+  - 템플릿의 종류
 - [함수 템플릿](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#-함수-템플릿)
+  - 함수 오버로딩 vs 함수 템플릿
+  - 명시적 함수 템플릿 인스턴스 생성
+  - 여러 개의 매개변수를 갖는 함수 템플릿
+  - 정수를 매개 변수로 갖는 함수 템플릿
+  - 템플릿 함수와 인터페이스
+  - 함수 템플릿 특수화
 - [클래스 템플릿](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#-클래스-템플릿)
-- [STL을 위한 템플릿 예제]
-- [이것만은 알고 갑시다.]
+  - 클래스 템플릿의 사용
+  - 클래스 템플릿의 특수화
+- [STL을 위한 템플릿 예제](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#-STL을-위한-템플릿-예제)
+  - 함수 템플릿 예제
+  - 함수 객체와 클래스 템플릿
+  - 더 유연한 함수 객체
+  - `Pair`클래스 구현
+- [연습문제](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#-연습문제)
 ___
 ## ✔ 템플릿 이란?
 - 템플릿은 STL 제네릭 프로그래밍의 핵심.
@@ -345,9 +358,640 @@ Print 특수화 버전: 2,3
 ]
 ___
 ## ✔ 클래스 템플릿
+ - 함수 템플릿이 함수를 만들어 내는 틀이라면, 클래스 템플릿은 클래스를 만들어내는 틀이다.
+
+##### 클래스 템플릿의 사용 
+ - 만약 아래와 같이 정수형 데이터를 관리하는 `Array`라는 클래스가 있다고 하자.
+```cpp
+class Array
+{
+    int *buf;
+    int size; // 원소의 개수
+    int capacity; // 저장 가능한 메모리 크기
+public:
+    explicit Array(int cap = 100) : buf(0), size(0), capacity(cap)
+    {
+        buf = new int[capacity];
+    }
+    ~Array() { delete[] buf; }
+
+    void Add(int data)
+    {
+        buf[size++] = data;
+    }
+
+    int operator[] (int idx) const
+    {
+        return buf[idx];
+    }
+
+    int GetSize() const
+    {
+        return size;
+    }
+    // 나머지 인터페이스 생략...
+};
+``` 
+- 그런데 이제 정수 뿐만 아니라 실수를 저장하는 `Array`도 필요하고, 
+문자열을 저장하는 `Array`도 필요할 수 있다.
+
+  - 정수형 `Array`, 실수형 `Array`, 문자열`Array`모두 데이터 타입만 다르고
+  **객체가 해야 할 일**(**인터페이스**, **기능**: 데이터 객체생성, 삭제, 데이터 삽입, 데이터 참조 등)
+  은 모두 같을 것이다.
+
+  - 이때 각각 데이터 타입에 맞는 `IntArray`, `DoubleArray`, `StringArray`를 각각
+  만들 수도 있을 것이다.
+
+  - 하지만 이럴때 클래스 템플릿을 사용하면 더욱 효율적이다.
+
+  - 그리고 클래스 템플릿의 매개변수는 함수 템플릿처럼 정수형으로 사용할 수도 있으며, 
+  디폴트 매개변수를 설정할 수도 있다.
+
+> 디폴트 매개변수 값을 갖는 클래스 템플릿 [(`ex04_08.cpp`)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch04_Template/ex04_08.cpp)
+```cpp
+#include <iostream>
+#include <string>   // 문자열 string 클래스 헤더
+using namespace std;
+
+template<typename T = int, int capT = 100>  // T = 100 / capT = 100 으로 디폴트값 설정
+class Array
+{
+    T *buf;
+    int size; // 원소의 개수
+    int capacity; // 저장 가능한 메모리 크기
+public:
+    explicit Array(int cap = capT) : buf(0), size(0), capacity(cap)
+    {
+        buf = new T[capacity];
+    }
+    ~Array() { delete[] buf; }
+
+    void Add(T data)
+    {
+        buf[size++] = data;
+    }
+
+    T operator[] (int idx) const
+    {
+        return buf[idx];
+    }
+
+    int GetSize() const
+    {
+        return size;
+    }
+    // 나머지 인터페이스 생략...
+};
+int main()
+{
+    Array<> iarr; // 디폴트 매개변수 값 T = int, capT = 100 사용.
+
+    iarr.Add(10);
+    iarr.Add(20);
+    iarr.Add(30);
+
+    for (int i = 0; i < iarr.GetSize(); i++)
+        cout << iarr[i] << endl;
+    cout << endl;
+
+    Array<double> darr; // 디폴트 매개변수 capT = 100 사용.
+
+    darr.Add(10.12);
+    darr.Add(20.12);
+    darr.Add(30.12);
+
+    for (int i = 0; i < darr.GetSize(); i++)
+        cout << darr[i] << endl;
+    cout << endl;
+
+    Array<string, 10> sarr; // 디폴트 매개변수 값 사용하지 않음.
+
+    sarr.Add("abc");
+    sarr.Add("ABC");
+    sarr.Add("Hello");
+
+    for (int i = 0; i < sarr.GetSize(); i++)
+        cout << sarr[i] << endl;
+    cout << endl;
+
+    return 0;
+}
+```
+> 출력 결과
+```
+10
+20
+30
+
+10.12
+20.12
+30.12
+
+abc
+ABC
+Hello
+```
+
+##### 클래스 템플릿의 특수화
+- **클래스 템플릿의 특수화**(Class Template Specialization)는 함수 템플릿 특수화처럼 
+일반 버전의 템플릿을 사용할 수 없는 경우나 성능 개선이나 특수한 기능 등을 위해 특수화 
+버전을 별도로 제공하고자 할 때 사용한다.
+
+- 어떤 경우에 클래스 템플릿의 특수화를 살펴보기 위해서 먼저 특수화를 사용하지 않은 예시
+`ex04_09.cpp`를 살펴보자. `ObjectInfo` 클래스는 객체의 정보를 출력하는 클래스 템플릿 이다.
+> 객체 정보를 출력하는 ObjectInfo 클래스 [(`ex04_09.cpp`)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch04_Template/ex04_09.cpp)
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+template<typename T>
+class ObjectInfo
+{
+    T data;
+public:
+    ObjectInfo(const T& d) : data(d) {}
+    void Print()
+    {
+        cout << "타입 : " << typeid(data).name() << endl;
+        cout << "크기 : " << sizeof(data) << endl;
+        cout << "값 : " << data << endl;
+        cout << endl;
+    }
+};
+
+int main()
+{
+    ObjectInfo<int> d1(10);
+    d1.Print(); // 객체 정보 출력
+
+    ObjectInfo<double> d2(5.5);
+    d2.Print(); // 객체 정보 출력
+
+    ObjectInfo<string> d3("Hello!");
+    d3.Print(); // 객체 정보 출력
+
+    return 0;
+}
+```
+> 출력 결과
+```
+타입 : int
+크기 : 4
+값 : 10
+
+타입 : double
+크기 : 8
+값 : 5.5
+
+타입 : class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >
+크기 : 28
+값 : Hello!
+```
+
+- 출력결과에서 `string` 클래스의 정보는 우리의 의도와는 조금 다르게 출력된 것을 확인 할 수 있다.
+
+  - `string`클래스가 템플릿 클래스로 `typedef`되어 있기 때문에 우리가 관심있는 값인 `string`이 아닌
+  실제 값이 출력되었다.
+
+  - 크기또한 우리가 관심있는 문자열의 길이가 아니라 실제 메모리에 할당된 크기가 출력되었다.
+  - 우리는 아래의 예시 처럼 `int`, `double`형과는 다른 조금 특별한 `string`만의 **특수 클래스**가 필요하다.
+    - 일반화 버전
+    ```cpp
+        template<typename T> 
+        class ObjectInfo
+    ```
+    - 특수화 버전: 
+    ```cpp
+        template<> 
+        class ObjectInfo<string>
+    ```
+>`ObjectInfo` 특수화 버전 [(`ex04_10.cpp`)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch04_Template/ex04_10.cpp)
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+template<typename T>
+class ObjectInfo
+{
+    T data;
+public:
+    ObjectInfo(const T& d) : data(d) {}
+    void Print()
+    {
+        cout << "타입 : " << typeid(data).name() << endl;
+        cout << "크기 : " << sizeof(data) << endl;
+        cout << "값 : " << data << endl;
+        cout << endl;
+    }
+};
+template<> // T를 string으로 특수화(클래스 템플릿 특수화)
+class ObjectInfo<string>
+{
+    string data;
+public:
+    ObjectInfo(const string& d) :data(d) {}
+
+    void Print()
+    {
+        cout << "타입 : " << "string" << endl;    // 타입 정보 수정
+        cout << "문자열 길이 : " << data.size() << endl; // string 만의 문자열 길이 정보 추가
+        cout << "값 : " << data << endl;
+        cout << endl;
+    }
+};
+int main()
+{
+    ObjectInfo<int> d1(10);
+    d1.Print(); // 객체 정보 출력
+
+    ObjectInfo<double> d2(5.5);
+    d2.Print(); // 객체 정보 출력
+
+    ObjectInfo<string> d3("Hello!");    // 특수화 버전의 클래스 템플릿으로 생성.
+    d3.Print(); // 객체 정보 출력
+
+    return 0;
+}
+```
+> 출력 결과
+```
+타입 : int
+크기 : 4
+값 : 10
+
+타입 : double
+크기 : 8
+값 : 5.5
+
+타입 : string
+문자열 길이 : 6
+값 : Hello!
+```
 
 [
 [위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#Tamplate) 
 / 
 [처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
 ]
+___
+
+## ✔ STL을 위한 템플릿 예제
+- STL에서 사용되는 템플릿에 대한 이해를 돕기 위해서 다음 두 가지 예제를 살펴본다.
+
+  - 함수 템플릿 예제 `For_each()`
+  - 클래스 템플릿 예제
+
+##### 함수 템플릿 예제
+
+- 앞서 2장에서 **콜백함수**의 개념을 익히기 위해서 `For_each()`함수를 다룬 적 있다.
+[(코드 이동)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch02_Function_Pointer/ex02_04.cpp)
+
+- 이 코드에서 `For_each()` 함수는 배열의 원소가 정수일 때만 사용 가능했다.
+
+- 만약 원소의 `For_each()` 함수가 타입에 상관없이 사용할 수 있는 일반적인 함수라면 
+클라이언트의 활용도를 높이고 유지 보수를 좋게 할 수 있다.
+
+- 이때 함수 템플릿을 사용하면 배열의 원소 타입을 클라이언트가 결정하게 만들 수 있다.
+  - 함수 템플릿은 예시와 같이 묵시적 호출과 명시적 호출모두 가능 하다.
+  - 또한 함수 포인터로 전달할 `Print()` 함수 또한 타입에 따라서 생성될 
+  수 있도록 함수 포인터로 정의 할 수 있다.
+    - 이때 주의할 점은 출력 함수의 템플릿 매개변수를 컴파일러가 유추할 수 있도록
+    명시적으로 매개변수 인자`Print<int>, Print<string>`를 지정해야 한다.
+
+> 일반화 한 `For_each()` 함수[(`ex04_11.cpp`)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch04_Template/ex04_11.cpp)
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+template<typename IterT, typename Func>
+void For_each(IterT begin, IterT end, Func pf)
+{
+    while (begin != end)
+    {
+        pf(*begin++);
+    }
+}
+
+template<typename T>
+void Print(T n)
+{
+    cout << n << " ";
+}
+
+int main()
+{
+    int arr[5] = { 10, 20, 30, 40, 50 };
+    string sarr[3] = { "abc", "ABC", "Hello" };
+
+    // 정수 출력, 묵시적 함수 템플릿 호출
+    For_each(arr, arr + 5, Print<int>);
+    cout << endl;
+
+    // 문자열 출력, 묵시적 함수 템플릿 호출
+    For_each(sarr, sarr + 3, Print<string>); 
+    cout << endl << endl;
+
+    // 정수 출력, 명시적 함수 템플릿 호출
+    For_each<int* , void(*)(int)>(arr, arr + 5, Print<int>); 
+    cout << endl;
+
+    // 문자열 출력, 명시적 함수 템플릿 호출
+    For_each<string*, void(*)(string)>(sarr, sarr + 3, Print<string>); 
+    cout << endl;
+
+    return 0;
+}
+```
+> 출력 결과
+```
+10 20 30 40 50
+abc ABC Hello
+
+10 20 30 40 50
+abc ABC Hello
+```
+
+##### 함수 객체와 클래스 템플릿
+- 3장에서 함수 객체의 장점을 다뤘다. [(3장. 함수 객체란)]((https://github.com/choisb/Study-Cpp-STL/tree/master/Ch03_Function_Object#-함수-객체란))
+  - 함수 객체를 사용하면 멤버 변수를 사용한 부가적인 서비스를 제공할 수 있다. 
+- 앞서 다룬 예제의 `Print()` 함수를 함수 객체로 만들어 보자.
+
+  - 함수 템플릿을 함수 객체로 선언하게되면 **클래스 템플릿**이 된다.
+  - 함수 객체는 부가정보를 가질 수 있으므로 (`sep`)라는 출력 패턴 구분자를 가질 수 있다.
+  - 생성자를 호출할 때 출력 패턴(`sep`)을 입력 받는다.
+
+> 함수객체 적용 예시 [(`ex04_12.cpp`)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch04_Template/ex04_12.cpp)
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+template<typename IterT, typename Func>
+void For_each(IterT begin, IterT end, Func pf)
+{
+    while (begin != end)
+    {
+        pf(*begin++);
+    }
+}
+
+template<typename T>
+struct PrintFunctor
+{
+    string sep; // 출력 구분자 정보
+
+    explicit PrintFunctor(const string& s = " ") : sep(s) {}
+    void operator() (T data) const
+    {
+        cout << data << sep;
+    }
+};
+
+int main()
+{
+    int arr[5] = { 10, 20, 30, 40, 50 };
+    string sarr[3] = { "abc", "ABC", "Hello" };
+
+    // 정수 출력, 묵시적 함수 템플릿 호출
+    For_each(arr, arr + 5, PrintFunctor<int>());    // 디폴트 매개변수 s = " " 사용
+    cout << endl;
+
+    // 문자열 출력, 묵시적 함수 템플릿 호출
+    For_each(sarr, sarr + 3, PrintFunctor<string>("*\n")); // s = "*\n" : 매 출력마다 * + 줄바꿈. 
+    cout << endl << endl;
+
+    return 0;
+}
+```
+> 출력 결과
+```
+10 20 30 40 50
+abc*
+ABC*
+Hello*
+```
+##### 더 유연한 함수 객체
+- **템플릿의 매개변수**와 **함수 객체**를 결합하면 반환 타입과 함수 매개변수 타입을 클라이언트가 결정하는 아주 **유연한 함수 객체**를 만들 수 있다.
+> 반환 타입과 매개변수 타입을 인자로 갖는 함수 객체 [(`ex04_13.cpp`)]((https://github.com/choisb/Study-Cpp-STL/blob/master/Ch04_Template/ex04_13.cpp))
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+template<typename RetType, typename ArgType>
+class Functor
+{
+public:
+    RetType operator() (ArgType data)
+    {
+        cout << data << endl;
+        return RetType();
+    }
+};
+
+int main()
+{
+    Functor<void, int> functor1;
+    functor1(10);
+    Functor<bool, string> functor2;
+    functor2("Hello!");
+
+    return 0;
+}
+```
+> 출력 결과
+```
+10
+Hello!
+```
+
+##### `Pair` 클래스 구현
+- STL에서 제공하는 `pair`클래스를 템플릿으로 구현 해보자.
+  - `pair`클래스는 두 객체를 하나의 객체로 취급할 수 있게 두 객체를 묶어주는 역할을 한다.
+  - STL의 모든 쌍을 이루는 객체는 pair 객체를 사용한다. (대표적으로 `map` 컨테이너가 있다.)
+>Pair 클래스[(`ex04_14.cpp`)](https://github.com/choisb/Study-Cpp-STL/blob/master/Ch04_Template/ex04_14.cpp)
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+template<typename T1, typename T2>
+struct MyPair
+{
+    T1 first;
+    T2 second;
+    MyPair(const T1& ft, const T2& sd) :first(ft), second(sd) {}
+};
+int main()
+{
+    // 우리가 구현한 pair 클래스
+    MyPair<int, int> p1(10, 20);
+    cout << p1.first << ',' << p1.second << endl;
+    MyPair<int, string> p2(1, "one");
+    cout << p2.first << ',' << p2.second << endl;
+    cout << endl;
+
+    //stl에 구현되어 있는 pair 클래스
+    pair<int, int> p3(10, 20);
+    cout << p3.first << ',' << p3.second << endl;
+    pair<int, string> p4(1, "one");
+    cout << p4.first << ',' << p4.second << endl;
+
+    return 0;
+}
+```
+> 출력 결과
+```
+10,20
+1,one
+
+10,20
+1,one
+```
+- 함수 객체와, 템플릿을 활용해서 직접 구현한 `MyPair` 클래스가 
+STL `pair`클래스와 동일하게 동작 하는 것을 확인 할 수 있다.
+
+[
+[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#Tamplate) 
+/ 
+[처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
+]
+___
+
+## 🎯 연습문제
+##### 1. 다음은 배열의 원소를 복사하는 함수 템플릿 Copy()의 호출 코드입니다. 함수 템플릿 Copy()를 작성하세요.
+```cpp
+int main()
+{
+    int arr1[5] = { 10, 20, 30, 40, 50 };
+    int arr2[5];
+    //Copy(t, s, n) t: 목적지 주소, s: 소스 주소, n: 원소 개수
+    Copy(arr2, arr1, 5);
+
+    MyType myArr1[5];
+    MyType myArr2[5];
+    Copy(myArr2, myArr1, 5);
+
+    return 0;
+}
+```
+> 정답
+```cpp
+template<typename T>
+void Copy(T t[], const T s[], int n)
+{
+    for (int i = 0; i < n; i++)
+        t[i] = s[i];
+}
+class MyType { };
+```
+
+##### 2. 다음은 Push(), Pop(), Empty() 인터페이스를 갖는 Stack 객체의 사용 코드입니다. 최소한의 Stack 클래스를 작성하세요.
+```cpp
+int main()
+{
+    Stack<int> st;
+
+    st.Push(10);
+    st.Push(20);
+    st.Push(30);
+
+    if (!st.Empty())
+        cout << st.Pop() << endl;
+    if (!st.Empty())
+        cout << st.Pop() << endl;
+    if (!st.Empty())
+        cout << st.Pop() << endl;
+    if (!st.Empty())
+        cout << st.Pop() << endl;
+}
+```
+> 정답
+```cpp
+// 예외처리 생략
+template <typename T>
+class Stack {
+    T* arr;
+    int top;
+    const int capacity;
+
+public:
+    explicit Stack(int _cap = 100) : capacity(_cap), top(0) // 생성자 형변환을 지원하지 않을 것이기 때문에 explicit 선언 꼭 할것.
+    { 
+        arr = new T[capacity];
+    }
+
+    void Push(const T& data)    // 임시 객체 생성을 막기 위해서 const T& 타입으로 호출할 것
+    {
+        arr[top++] = data;
+    }
+
+    bool Empty() const  // 멤버변수에 변화가 없기 때문에 const로 선언할것.
+    {
+        return top <= 0;
+    }
+
+    T& Pop()
+    {
+        return arr[--top];
+    }
+};
+```
+##### 🚩 오답노트
+- `Push()`함수에서 임시 객체 생성을 막기 위해서 매개변수 타입은 `const T&`으로 선언할 것
+- `Empty()`에서는 멤버변수에 변화가 없기 때문에 `const`로 선언할 것.
+
+##### 3. 다음은 Push(), Pop(), Empty() 인터페이스를 갖는 Queue 객체의 사용 코드입니다. 최소한의 Queue 클래스를 작성하세요.
+```cpp
+int main()
+{
+    Queue<int> q;
+
+    q.Push(10);
+    q.Push(20);
+    q.Push(30);
+
+    if (!q.Empty())
+        cout << q.Pop() << endl;
+    if (!q.Empty())
+        cout << q.Pop() << endl;
+    if (!q.Empty())
+        cout << q.Pop() << endl;
+
+    return 0;
+}
+```
+> 정답
+```cpp
+// 예외처리 생략
+template<typename T>
+class Queue {
+    enum {CAP = 100};   // queue의 크기
+    T buf[CAP];
+    int front, rear;
+
+public:
+    Queue() :front(0), rear(0) {}
+    void Push(const T& data)
+    {
+        buf[rear = (rear+1) % CAP] = data;      // rear의 값이 0 ~ CAP사이를 순환하도록 % 연산 
+    }
+    T& Pop()
+    {
+        return buf[front = (front+1) % CAP];    // front의 값이 0 ~ CAP사이를 순환하도록 % 연산 
+    }
+    bool Empty() const
+    {
+        return front == rear;
+    }
+};
+```
+[
+[위로](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch04_Template#Tamplate) 
+/ 
+[처음으로](https://github.com/choisb/Study-Cpp-STL#c-stl-programming)
+]
+___
