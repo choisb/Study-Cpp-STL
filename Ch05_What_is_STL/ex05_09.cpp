@@ -13,6 +13,15 @@ int main()
     cout << not2(less<int>())(20, 10) << endl;
     cout << endl;
 
-    less<int> l;
-    cout << l(10, 20)
+    less<int> l;                        // 객체 l을 생성한 후 적용
+    cout << l(10, 20) << endl;          
+    cout << l(20, 20) << endl;
+    cout << l(20, 10) << endl;
+    cout << "================" << endl;
+    cout << not2(l)(10, 20) << endl;    // 객체 l에 not2 어댑터 적용
+    cout << not2(l)(20, 20) << endl;
+    cout << not2(l)(20, 10) << endl;
+    cout << endl;
+    
+    return 0;
 }
