@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ex06_20.cpp">
+    <ClCompile Include="list_merge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
