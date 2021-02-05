@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="multiset_find.cpp">
+    <ClCompile Include="multimap_find.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
