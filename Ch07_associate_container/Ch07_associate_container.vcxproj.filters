@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="equal_range.cpp">
+    <ClCompile Include="multiset_find.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

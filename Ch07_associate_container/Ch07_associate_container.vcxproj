@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{596B4365-C25E-45E6-BCC3-DED7DDA493A6}</ProjectGuid>
-    <RootNamespace>Ch07associatecontainer</RootNamespace>
+    <ProjectGuid>{63AC9A2C-2058-43A0-ADAF-04F446336A94}</ProjectGuid>
+    <RootNamespace>Ch07AssociateContainer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -123,7 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="equal_range.cpp" />
+    <ClCompile Include="multiset_find.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
