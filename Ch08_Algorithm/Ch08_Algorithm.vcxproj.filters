@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ex50_includes.cpp">
+    <ClCompile Include="ex52_equal_range.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
