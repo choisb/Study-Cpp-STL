@@ -19,10 +19,10 @@
 #### Part2.
 > STL 이해하기
 - [5장 STL 소개](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch05_What_is_STL#what-is-stl)
-- 6장 시퀀스 컨테이너
-- 7장 연관 컨테이너
-- 8장 알고리즘
-- 9장 STL 함수 객체
+- [6장 시퀀스 컨테이너](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch06_Sequence_Container)
+- [7장 연관 컨테이너](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch07_Associate_Container)
+- [8장 알고리즘](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch08_Algorithm)
+- [9장 STL 함수 객체](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch09_Function_Object#function-object)
 - 10장 반복자
 - 11장 컨테이너 어댑터
 - 12장 string 컨테이너
@@ -30,5 +30,5 @@ ___
 ## 🏷 출처
 ![책 표지](./img/01_book_img.jpg)
 - 본 프로젝트는 개인 학습을 목적으로 공동환 저자의 [뇌를 자극하는 C++ STL](한빛 미디어) 교재 내용을 요약 및 일부 수정하여 작성하였습니다.
-- 본 프로젝트의 내용과 코드에 대한 저작권은 공동환과 한빛미디어(주)에 있으며, 한빛미디어(주)로 부터 허가를 받고 게시하였음을 밝힙니다.
+- 본 프로젝트의 내용과 코드에 대한 저작권은 공동환과 한빛미디어(주)에 있으며, 한빛미디어(주)의 규정을 준수하여 게시하였음을 밝힙니다.
 - [도서 소개보기](https://www.hanbit.co.kr/store/books/look.php?p_code=B5912645820)
