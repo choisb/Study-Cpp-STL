@@ -19,7 +19,7 @@ int main()
 
 
 	// C++17 이후
-	auto negate = not_fn(less<int>()); // 임시객체는 왜 안됨??
+	auto negate = not_fn(less<int>()); 
 	cout << negate(05, 10) << ':' << not_fn(oLess) (05, 10) << ':' << not_fn(less<int>())(05, 10) << endl; // 모두 같다
 	cout << negate(10, 10) << ':' << not_fn(oLess) (10, 10) << ':' << not_fn(less<int>())(10, 10) << endl; // 모두 같다
 	cout << negate(20, 10) << ':' << not_fn(oLess) (20, 10) << ':' << not_fn(less<int>())(20, 10) << endl; // 모두 같다

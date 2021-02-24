@@ -18,7 +18,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ex09_not_fn.cpp">
+    <ClCompile Include="ex10_ptr_fun.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
