@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ex00_compare.cpp">
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ex10_substr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
