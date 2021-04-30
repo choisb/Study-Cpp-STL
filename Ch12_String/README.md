@@ -1,10 +1,4 @@
 ﻿# String Container
-## 📝 목차
-- [컨테이너 어댑터란](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch11_Container_Adapter#-컨테이너-어댑터란)
-- [Stack 컨테이너](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch11_Container_Adapter#-Stack-컨테이너)
-- [Queue 컨테이너](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch11_Container_Adapter#-Queue-컨테이너)
-- [Priority Queue 컨테이너](https://github.com/choisb/Study-Cpp-STL/tree/master/Ch11_Container_Adapter#-Priority-Queue-컨테이너)
-
 ___
 ## ✔ String 컨테이너란
   - `string` 컨테이너는 문자만을 원소로 저장하고 문자열을 조작할 목적으로 만들어진 컨테이너
